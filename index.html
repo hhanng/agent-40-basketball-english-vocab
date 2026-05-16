@@ -189,15 +189,15 @@
 
 <div class="app-header">
   <h1>🏀 Basketball English Vocab</h1>
-  <div class="subtitle">Học tiếng Anh qua bóng rổ · Level up your game & English!</div>
+  <div class="subtitle">Level up your game and your English!</div>
 </div>
 
 <!-- ══════════ HOME SCREEN ══════════ -->
 <div id="screen-home" class="screen active">
   <div class="home-hero">
     <div class="ball">🏀</div>
-    <h2>Chào mừng, Ngôi sao! ⭐</h2>
-    <p>Chọn chủ đề để bắt đầu học · Pick a topic to start!</p>
+    <h2>Welcome, Star Player! ⭐</h2>
+    <p>Pick a topic to start learning!</p>
   </div>
   <div class="category-grid" id="home-grid"></div>
 </div>
@@ -205,7 +205,7 @@
 <!-- ══════════ LEARN SCREEN ══════════ -->
 <div id="screen-learn" class="screen">
   <div class="cat-selector">
-    <label>Chọn chủ đề · Choose Category</label>
+    <label>Choose Category</label>
     <select id="learn-cat-select"></select>
   </div>
   <div class="lesson-actions">
@@ -218,7 +218,7 @@
 <!-- ══════════ FLASHCARD SCREEN ══════════ -->
 <div id="screen-cards" class="screen">
   <div class="cat-selector">
-    <label>Chọn chủ đề · Choose Category</label>
+    <label>Choose Category</label>
     <select id="fc-cat-select"></select>
   </div>
   <div id="fc-area"></div>
@@ -227,7 +227,7 @@
 <!-- ══════════ QUIZ SCREEN ══════════ -->
 <div id="screen-quiz" class="screen">
   <div class="cat-selector">
-    <label>Chọn chủ đề · Choose Category</label>
+    <label>Choose Category</label>
     <select id="quiz-cat-select"></select>
   </div>
   <div id="quiz-area"></div>
@@ -236,13 +236,13 @@
 <!-- ══════════ WORD SEARCH SCREEN ══════════ -->
 <div id="screen-search" class="screen">
   <h2 style="margin-bottom:10px;">🔍 Word Search</h2>
-  <p style="font-size:13px;color:var(--text-muted);margin-bottom:12px;">Tìm 8 từ bóng rổ ẩn trong bảng chữ cái · Find 8 hidden basketball words!</p>
+  <p style="font-size:13px;color:var(--text-muted);margin-bottom:12px;">Find 8 hidden basketball words in the grid!</p>
   <div class="ws-timer" id="ws-timer">⏱ 0:00</div>
   <div class="ws-word-list" id="ws-word-tags"></div>
   <div class="ws-grid-wrap"><div class="ws-grid" id="ws-grid"></div></div>
   <div class="ws-success" id="ws-success">
     <div style="font-size:48px;">🎉</div>
-    <h3>Tuyệt vời! You found them all!</h3>
+    <h3>You found them all!</h3>
     <p id="ws-final-time" style="color:var(--text-muted);margin-top:6px;"></p>
     <button onclick="initWordSearch()" style="margin-top:14px;background:var(--orange);color:#fff;border:none;border-radius:20px;padding:12px 24px;font-size:15px;font-weight:700;cursor:pointer;min-height:44px;">Play Again 🔄</button>
   </div>
@@ -470,7 +470,6 @@ function buildHome() {
       <span class="cat-count">${cat.words.length}</span>
       <div class="cat-icon">${cat.icon}</div>
       <div class="cat-name-en">${cat.en}</div>
-      <div class="cat-name-vi">${cat.vi}</div>
     </div>
   `).join('');
 }
@@ -487,7 +486,7 @@ function openCategoryLearn(catId) {
 let currentLearnCat = 'positions';
 
 function buildCatSelects() {
-  const opts = CATEGORIES.map(c => `<option value="${c.id}">${c.icon} ${c.en} · ${c.vi}</option>`).join('');
+  const opts = CATEGORIES.map(c => `<option value="${c.id}">${c.icon} ${c.en}</option>`).join('');
   ['learn-cat-select','fc-cat-select','quiz-cat-select'].forEach(id => {
     document.getElementById(id).innerHTML = opts;
   });
@@ -509,7 +508,7 @@ function renderLearnScreen() {
       </div>
       <div class="vi-word">${w.vi}</div>
       <div class="example-en">📝 "${w.ex}"</div>
-      <div class="example-vi">🇻🇳 "${w.exVi}"</div>
+      <div class="example-vi">🇻🇳 Vietnamese: "${w.exVi}"</div>
       <div class="card-actions">
         <button class="say-btn" onclick="speakWord(event,'${w.en.replace(/'/g,"\\'")}')">🔊 Pronounce</button>
         <button class="star-btn ${isLearned(catId,i)?'starred':''}" onclick="starWord(event,'${catId}',${i},this)">${isLearned(catId,i)?'⭐':'☆'}</button>
@@ -578,8 +577,8 @@ function renderFC() {
     area.innerHTML = `
       <div class="fc-result">
         <div class="trophy">${fcState.known === fcState.cards.length ? '🏆' : '🎯'}</div>
-        <h3>${fcState.known === fcState.cards.length ? 'Perfect! Xuất sắc!' : `You know ${fcState.known}/${fcState.cards.length} words!`}</h3>
-        <p>Bạn biết ${fcState.known}/${fcState.cards.length} từ trong bộ này.</p>
+        <h3>${fcState.known === fcState.cards.length ? 'Perfect! All correct!' : `You know ${fcState.known}/${fcState.cards.length} words!`}</h3>
+        <p>${fcState.known === fcState.cards.length ? 'Amazing work — keep it up!' : 'Review the ones you missed and try again!'}</p>
         <button class="restart-btn" onclick="renderFlashcards()">🔄 Play Again</button>
       </div>`;
     return;
@@ -596,7 +595,7 @@ function renderFC() {
         <div class="fc-face fc-front">
           <div class="fc-cat-icon">${c.catIcon}</div>
           <div class="fc-word">${c.en}</div>
-          <div class="fc-flip-hint">Tap to reveal · Chạm để lật</div>
+          <div class="fc-flip-hint">Tap to flip</div>
         </div>
         <div class="fc-face fc-back">
           <div class="fc-vi">${c.vi}</div>
@@ -681,7 +680,7 @@ function renderQuizQuestion() {
     area.innerHTML = `
       <div class="quiz-result">
         <div class="score-big">${s}/${t}</div>
-        <div class="score-label">Điểm số của bạn</div>
+        <div class="score-label">Your Score</div>
         <div class="msg">${msg}</div>
         <button class="quiz-restart" onclick="startQuiz()">🔄 Play Again</button>
       </div>`;
@@ -689,7 +688,7 @@ function renderQuizQuestion() {
   }
   const q = quizState.questions[quizState.idx];
   area.innerHTML = `
-    <div class="quiz-question-num">Câu ${quizState.idx+1} / ${quizState.questions.length}</div>
+    <div class="quiz-question-num">Question ${quizState.idx+1} / ${quizState.questions.length}</div>
     <div class="fc-progress-wrap">
       <div class="progress-bar-track"><div class="progress-bar-fill" style="width:${Math.round(quizState.idx/quizState.questions.length*100)}%"></div></div>
     </div>
@@ -717,10 +716,10 @@ function checkAnswer(btn, chosen, answer, idx) {
   const fb = document.getElementById('qfeedback');
   fb.classList.add('show', correct ? 'correct' : 'wrong');
   if (correct) {
-    fb.innerHTML = `✅ Đúng rồi! "${answer}" is correct!`;
+    fb.innerHTML = `✅ Correct! "${answer}" is right!`;
   } else {
     const q = quizState.questions[quizState.idx];
-    fb.innerHTML = `❌ Câu trả lời đúng là: <strong>${answer}</strong><br><span style="font-size:12px;">${q.exVi}</span>`;
+    fb.innerHTML = `❌ The answer is: <strong>${answer}</strong>`;
   }
   document.getElementById('quiz-next').classList.add('show');
 }
@@ -823,7 +822,7 @@ function renderWSGrid() {
 function renderWSTags() {
   document.getElementById('ws-word-tags').innerHTML = WS_WORDS.map(w=>`
     <div class="ws-word-tag ${wsFound.has(w.en)?'found':''}" id="wstag-${w.en}">
-      ${w.en} · ${w.vi}
+      ${w.en}
     </div>`).join('');
 }
 
@@ -917,7 +916,7 @@ function checkWSSelection(cells) {
 function wsComplete() {
   clearInterval(wsTimerInterval);
   const m=Math.floor(wsTimerSec/60), s=wsTimerSec%60;
-  document.getElementById('ws-final-time').textContent = `Thời gian: ${m}:${s.toString().padStart(2,'0')} · Time: ${m}:${s.toString().padStart(2,'0')}`;
+  document.getElementById('ws-final-time').textContent = `Time: ${m}:${s.toString().padStart(2,'0')}`;
   document.getElementById('ws-success').classList.add('show');
   launchConfetti();
 }
@@ -949,13 +948,12 @@ function renderBook() {
     content.innerHTML = `
       <div class="book-empty">
         <div class="empty-icon">📖</div>
-        <h3 style="color:var(--primary);">Chưa có từ nào</h3>
-        <p>Star words in the Learn tab to add them here!</p>
-        <p style="margin-top:4px;">Nhấn ⭐ ở mục Học để thêm từ vào đây!</p>
+        <h3 style="color:var(--primary);">No words yet!</h3>
+        <p>Star words in the Learn tab to save them here.</p>
       </div>`;
     return;
   }
-  const trophy = learnedWords.length >= 20 ? '<div class="trophy-banner show"><h3>🏆 Champion! You have 20+ words mastered!</h3><p style="color:#7a5a00;font-size:13px;">Vô địch! Bạn đã học được 20+ từ!</p></div>' : '';
+  const trophy = learnedWords.length >= 20 ? '<div class="trophy-banner show"><h3>🏆 Champion! You have 20+ words mastered!</h3></div>' : '';
   const stats = `
     <div class="book-stats">
       <div class="stat-card"><div class="stat-num">${learnedWords.length}</div><div class="stat-label">Words Learned</div></div>
@@ -984,7 +982,7 @@ function removeFromBook(catId, wordIndex) {
 }
 
 function quizLearnedWords() {
-  if (learnedWords.length < 2) { alert('Add at least 2 words to quiz! Thêm ít nhất 2 từ để làm bài!'); return; }
+  if (learnedWords.length < 2) { alert('Add at least 2 starred words to quiz!'); return; }
   // build quiz from learned words
   const pool = learnedWords.slice();
   shuffle(pool);
